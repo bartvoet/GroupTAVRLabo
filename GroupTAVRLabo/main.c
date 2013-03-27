@@ -5,6 +5,7 @@
 
 //next: use usart in combination with sipo
 //next: connect to traffic-light system
+//do some pwa and provide some anolog input
 //next: make more modular
 
 volatile uint8_t i=0;
