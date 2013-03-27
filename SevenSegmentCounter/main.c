@@ -19,7 +19,6 @@ volatile unsigned short continueCounting = 1;
 //----
 // Initialization section
 //----
-
 void initTimer() {
 	TCCR0A = (1 << WGM01);
 	TCCR0B = ((1 << CS01) | (1 << CS00));
@@ -39,9 +38,6 @@ void initInterruptInput() {
 	sei();
 }
 
-/*
- * Initialize the toggle
- */
 void initToggleSwitch() {
 	DDRB &= ~(1 << TOGGLE_INPUT);
 }
@@ -52,21 +48,15 @@ const uint8_t OUTPUT_PORTS_FOR_DDRB
 /*
  * Prepare the output
  */
-void initOutput() {
-	DDRB |= (1 << PB0);
-	DDRB |= (1 << PB1);
-	DDRB |= (1 << PB2);
-	DDRB |= (1 << PB3);
-
-//	DDRB |= OUTPUT_PORTS_FOR_DDRB;
-
+void initOutputNumber() {
+	DDRB |= OUTPUT_PORTS_FOR_DDRB;
 }
 
 /*
  * Init all the IO
  */
 void initIO() {
-	initOutput();
+	initOutputNumber();
 	initToggleSwitch();
 	initInterruptInput();
 }

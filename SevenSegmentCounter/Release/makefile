@@ -30,56 +30,56 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-CountAndClickSevenSegmentWithInterupt.lss \
+SevenSegmentCounter.lss \
 
 FLASH_IMAGE += \
-CountAndClickSevenSegmentWithInterupt.hex \
+SevenSegmentCounter.hex \
 
 EEPROM_IMAGE += \
-CountAndClickSevenSegmentWithInterupt.eep \
+SevenSegmentCounter.eep \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: CountAndClickSevenSegmentWithInterupt.elf secondary-outputs
+all: SevenSegmentCounter.elf secondary-outputs
 
 # Tool invocations
-CountAndClickSevenSegmentWithInterupt.elf: $(OBJS) $(USER_OBJS)
+SevenSegmentCounter.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,CountAndClickSevenSegmentWithInterupt.map -mmcu=atmega328p -o "CountAndClickSevenSegmentWithInterupt.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,SevenSegmentCounter.map -mmcu=atmega328p -o "SevenSegmentCounter.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-CountAndClickSevenSegmentWithInterupt.lss: CountAndClickSevenSegmentWithInterupt.elf
+SevenSegmentCounter.lss: SevenSegmentCounter.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S CountAndClickSevenSegmentWithInterupt.elf  >"CountAndClickSevenSegmentWithInterupt.lss"
+	-avr-objdump -h -S SevenSegmentCounter.elf  >"SevenSegmentCounter.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-CountAndClickSevenSegmentWithInterupt.hex: CountAndClickSevenSegmentWithInterupt.elf
+SevenSegmentCounter.hex: SevenSegmentCounter.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -O ihex CountAndClickSevenSegmentWithInterupt.elf  "CountAndClickSevenSegmentWithInterupt.hex"
+	-avr-objcopy -R .eeprom -O ihex SevenSegmentCounter.elf  "SevenSegmentCounter.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-CountAndClickSevenSegmentWithInterupt.eep: CountAndClickSevenSegmentWithInterupt.elf
+SevenSegmentCounter.eep: SevenSegmentCounter.elf
 	@echo 'Create eeprom image (ihex format)'
-	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex CountAndClickSevenSegmentWithInterupt.elf  "CountAndClickSevenSegmentWithInterupt.eep"
+	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex SevenSegmentCounter.elf  "SevenSegmentCounter.eep"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: CountAndClickSevenSegmentWithInterupt.elf
+sizedummy: SevenSegmentCounter.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega328p CountAndClickSevenSegmentWithInterupt.elf
+	-avr-size --format=avr --mcu=atmega328p SevenSegmentCounter.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(ASM_DEPS)$(EEPROM_IMAGE)$(FLASH_IMAGE)$(ELFS)$(LSS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS) CountAndClickSevenSegmentWithInterupt.elf
+	-$(RM) $(OBJS)$(C_DEPS)$(ASM_DEPS)$(EEPROM_IMAGE)$(FLASH_IMAGE)$(ELFS)$(LSS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS) SevenSegmentCounter.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
