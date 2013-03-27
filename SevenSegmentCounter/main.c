@@ -5,7 +5,6 @@
 
 //next: use usart in combination with sipo
 //next: connect to traffic-light system
-//do some pwa and provide some anolog input
 //next: make more modular
 
 volatile uint8_t i=0;
@@ -93,7 +92,9 @@ volatile inline uint8_t checkForToggle() {
 	return (PINB & (1 << TOGGLE_INPUT));
 }
 
-
+/*
+ * Change the output
+ */
 void inline changeOutputNumber(volatile uint8_t i) {
 	PORTB = (PORTB & 0xb11110000) | i;
 }
