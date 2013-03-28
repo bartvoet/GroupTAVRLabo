@@ -95,7 +95,7 @@ void inline changeOutputNumber(volatile uint8_t i) {
 ISR(TIMER0_COMPA_vect) {
 	milis++;
 	if(continueCounting) {
-		if (milis - now >= 1000) {
+		if (milis - now >= 100) {
 			now = milis;
 			changeOutputNumber(i);
 			if (checkForToggle()) {
