@@ -26,6 +26,26 @@ void initTimer() {
 	TIMSK0 = (1 << OCIE0A);
 }
 
+void initLedOutput(){
+//	DDRD |= (1 << PD3);
+//	TCCR2A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
+//	TCCR2B = _BV(CS22);
+//	OCR2B = 128;
+
+//	DDRD |= (1 << DDD6);// PD6 is now an output
+//	OCR2A = 128;// set PWM for 50% duty cycle
+//	TCCR2A |= (1 << COM2A1);// set none-inverting mode
+//	TCCR2A |= (1 << WGM21) | (1 << WGM20);// set fast PWM Mode
+//	TCCR2B |= (1 << CS21);// set prescaler to 8 and starts PWM
+
+	DDRD |= (1 << PD3);
+	TCCR2A |= (1 << COM2B1);// set none-inverting mode
+	TCCR2A |= (1 << WGM21) | (1 << WGM20);// set fast PWM Mode
+	TCCR2B |= (1 << CS22);// set prescaler to 8 and starts PWM
+	OCR2B = 250;// set PWM for x/256 duty cycle
+
+}
+
 void initButton() {
 	DDRB &= ~(1 << BUTTON_INPUT);
 	PCICR |= (1 << PCIE0);
@@ -35,6 +55,7 @@ void initButton() {
 void initInterruptInput() {
 	initTimer();
 	initButton();
+	initLedOutput();
 	sei();
 }
 
@@ -52,6 +73,7 @@ void initOutputNumber() {
 	DDRB |= OUTPUT_PORTS_FOR_DDRB;
 }
 
+
 /*
  * Init all the IO
  */
@@ -63,6 +85,7 @@ void initIO() {
 
 int main(void) {
 	initIO();
+
 	while (1) {
 		// waisting some clock-cycles while awaiting interupts
 	}
@@ -90,14 +113,22 @@ void inline changeOutputNumber(volatile uint8_t i) {
 }
 
 /*
+ * PWM-control
+ */
+inline void setLight(volatile uint8_t i) {
+	OCR2B = 28 * i;
+}
+
+/*
  * Counting milliseconds
  */
 ISR(TIMER0_COMPA_vect) {
 	milis++;
 	if(continueCounting) {
-		if (milis - now >= 100) {
+		if (milis - now >= 1000) {
 			now = milis;
 			changeOutputNumber(i);
+			setLight(i);
 			if (checkForToggle()) {
 				i++;
 				if (i > 9) {i=0;}
