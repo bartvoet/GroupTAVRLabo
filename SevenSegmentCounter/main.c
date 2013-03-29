@@ -75,7 +75,7 @@ void initOutputNumber() {
 
 
 /*
- * Init all the IO
+ * Initialize all the IO
  */
 void initIO() {
 	initOutputNumber();
